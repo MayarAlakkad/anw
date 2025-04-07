@@ -1,0 +1,33 @@
+enable
+!
+configure terminal
+!
+hostname Switch0
+enable secret cisco
+ip domain-name hu.local
+no ip domain-lookup
+crypto key generate rsa
+1024
+!
+banner motd # verboden voor onbevoegden #
+service password-encryption
+username mayar password cisco
+ip ssh version 2
+ip ssh time-out 120
+ip ssh authentication-retries 2
+cdp run
+line vty 0 15
+ password cisco
+ transport input ssh
+ # I intentionally don't use the login local
+ login
+ logging sync
+ exit
+!
+line con 0
+ password cisco
+ # I intentionally don't use the login local
+ login
+ logging sync
+ exit
+!
